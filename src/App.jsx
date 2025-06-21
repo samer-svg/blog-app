@@ -4,7 +4,11 @@ import { lazy, Suspense } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
-const Home = lazy(() => import('./pages/Home'));
+function wait(mx) {
+  return new Promise(resolve => setTimeout(resolve,mx));
+}
+
+const Home = lazy(() => wait(1000).then(() => import('./pages/Home')));
 const About = lazy(() => import('./pages/About'));
 const Contact = lazy(() => import('./pages/Contact'));
 const BlogPost = lazy(() => import('./pages/BlogPost'));
@@ -33,8 +37,7 @@ function Layout() {
 // eslint-disable-next-line no-unused-vars
 const withSuspense = (Component) => {
   return (
-    <Suspense fallback={
-    < LoadingSpinner />}>
+    <Suspense fallback={ < LoadingSpinner />}>
       <Component />
     </Suspense>
   )}
